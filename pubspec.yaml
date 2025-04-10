@@ -1,0 +1,22 @@
+name: flutter_unified_map_marker_cluster_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+
+workspace:
+  - packages/flutter_unified_map_marker_cluster
+  - example
+
+# The flutter_unified_map packages are not published yet: resolve the whole federated plugin from the sibling repo.
+dependency_overrides:
+  flutter_unified_map:
+    path: ../flutter_unified_map/packages/flutter_unified_map
+  flutter_unified_map_platform_interface:
+    path: ../flutter_unified_map/packages/flutter_unified_map_platform_interface
+  flutter_unified_map_android:
+    path: ../flutter_unified_map/packages/flutter_unified_map_android
+  flutter_unified_map_apple:
+    path: ../flutter_unified_map/packages/flutter_unified_map_apple
+  flutter_unified_map_flutter_map:
+    path: ../flutter_unified_map/packages/flutter_unified_map_flutter_map

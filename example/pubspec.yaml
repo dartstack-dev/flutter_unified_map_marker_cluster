@@ -1,0 +1,30 @@
+name: flutter_unified_map_marker_cluster_example
+description: Demo app for flutter_unified_map_marker_cluster.
+publish_to: none
+version: 0.1.0+1
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path_provider: ^2.1.5
+  flutter_unified_map: ^0.4.0
+  flutter_unified_map_marker_cluster: ^0.1.0
+  flutter_unified_map_platform_interface: ^0.4.0
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_map: ^7.0.2
+  flutter_map_marker_cluster: ^1.4.0
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.8
+  flutter_unified_map_flutter_map: ^0.4.0
+
+flutter:
+  uses-material-design: true

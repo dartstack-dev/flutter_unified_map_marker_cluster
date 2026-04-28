@@ -1,6 +1,6 @@
 name: flutter_unified_map_marker_cluster
 description: Marker clustering for flutter_unified_map with the API of flutter_map_marker_cluster and native split, merge and spiderfy animations.
-version: 0.4.0
+version: 0.5.0
 repository: https://github.com/AlphaByte/flutter_unified_map_marker_cluster
 topics:
   - map
@@ -16,14 +16,14 @@ dependencies:
   clock: ^1.1.2
   flutter:
     sdk: flutter
-  flutter_map: ^8.2.2
+  flutter_map: ^8.3.0
   flutter_map_marker_cluster: ^8.2.2
-  flutter_unified_map: ^0.6.0
-  flutter_unified_map_platform_interface: ^0.6.0
+  flutter_unified_map: ^0.7.0
+  flutter_unified_map_platform_interface: ^0.7.0
 
 dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  flutter_unified_map_flutter_map: ^0.6.0
+  flutter_unified_map_flutter_map: ^0.7.0
   plugin_platform_interface: ^2.1.8

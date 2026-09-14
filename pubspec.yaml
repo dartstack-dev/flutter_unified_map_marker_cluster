@@ -2,7 +2,7 @@ name: flutter_unified_map_marker_cluster_workspace
 publish_to: none
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.13.0
 
 workspace:
   - packages/flutter_unified_map_marker_cluster

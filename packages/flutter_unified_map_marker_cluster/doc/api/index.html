@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="flutter_unified_map_marker_cluster API docs, for the Dart programming language.">
+  <title>flutter_unified_map_marker_cluster - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://dartstack.dev">flutter_unified_map_marker_cluster package</a></li>
+  </ol>
+  <div class="self-name">flutter_unified_map_marker_cluster</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="flutter_unified_map_marker_cluster">flutter_unified_map_marker_cluster</h1>
+<p>Marker clustering for <a href="https://github.com/dartstack-dev/flutter_unified_map">flutter_unified_map</a> with the API of
+<a href="https://pub.dev/packages/flutter_map_marker_cluster">flutter_map_marker_cluster</a> 8.2: clusters split and merge with
+an animation when the zoom level changes, also during a pinch, and a cluster that zooming cannot split spreads its
+markers around it (spiderfy).</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Clustering</th>
+<th>Drawing and animations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Android</td>
+<td>Dart, flutter_map_marker_cluster's algorithm</td>
+<td>Google Maps markers, animated natively</td>
+</tr>
+<tr>
+<td>iOS, macOS</td>
+<td>Dart, flutter_map_marker_cluster's algorithm</td>
+<td>MapKit annotations, animated natively</td>
+</tr>
+<tr>
+<td>Web, Windows, Linux, tests</td>
+<td>flutter_map_marker_cluster itself</td>
+<td>flutter_map_marker_cluster, inside the flutter_map backend</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Gathered under one cluster</th>
+<th>Spiderfied</th>
+<th>Closed again</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-cluster.png" alt="The demo pins gathered under one cluster" width="230" height="500"></td>
+<td><img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-open.png" alt="The cluster spiderfied: pins spread on a spiral with legs" width="230" height="500"></td>
+<td><img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-closed.png" alt="The spider closed again" width="230" height="500"></td>
+</tr>
+</tbody>
+</table>
+<pre class="language-dart"><code class="language-dart">UnifiedMap(
+  options: const MapOptions(initialCenter: LatLng(48.5, 9.0), initialZoom: 5),
+  children: [
+    MarkerClusterLayerWidget(
+      options: MarkerClusterLayerOptions(
+        markers: [
+          for (final station in stations)
+            Marker(key: ValueKey(station.id), point: station.point, iconKey: station.brand, child: Pin(station.brand)),
+        ],
+        size: const Size(44, 44),
+        disableClusteringAtZoom: 12,
+        builder: (context, markers) =&gt; ClusterBadge(count: markers.length),
+        onMarkerTap: (marker) =&gt; select(marker.key),
+      ),
+    ),
+  ],
+)
+</code></pre>
+<h2 id="spiderfy">Spiderfy</h2>
+<p>A cluster that zooming cannot split — markers stacked on the same point, or a cluster still whole at <code>maxZoom</code> —
+spreads its markers around it on tap. Three layouts:</p>
+<ul>
+<li><strong>circle</strong> — up to <code>circleSpiralSwitchover</code> markers (9 by default) on a circle <code>spiderfyCircleRadius</code> pixels
+around the cluster;</li>
+<li><strong>spiral</strong> — from that count on, an Archimedean spiral ("snail"), its spacing widened by
+<code>spiderfySpiralDistanceMultiplier</code> (keep it above 1 so the markers do not overlap);</li>
+<li><strong>your own</strong> — <code>spiderfyShapePositions</code> receives the marker count and the cluster's position in pixels and returns
+a position per marker.</li>
+</ul>
+<pre class="language-dart"><code class="language-dart">MarkerClusterLayerOptions(
+  circleSpiralSwitchover: 9,            // circle up to 9 markers, spiral from there on
+  spiderfyCircleRadius: 40,
+  spiderfySpiralDistanceMultiplier: 2,  // a wider snail for dense stacks
+  spiderLegs: const SpiderLegOptions(), // native maps only: a leg joins every marker back to the cluster
+)
+</code></pre>
+<p>The markers glide out with <code>animationsOptions.spiderfy</code>; a map tap or a zoom change folds them back in. On
+Android, iOS and macOS the legs are polylines (<code>spiderLegs</code>, null draws none); flutter_map_marker_cluster draws no
+legs, so web, Windows and Linux never show them.</p>
+<h2 id="migrating-from-flutter_map_marker_cluster">Migrating from flutter_map_marker_cluster</h2>
+<p>Import <code>package:flutter_unified_map/flutter_unified_map.dart</code> and
+<code>package:flutter_unified_map_marker_cluster/flutter_unified_map_marker_cluster.dart</code> instead of flutter_map and
+flutter_map_marker_cluster. <code>MarkerClusterLayerWidget</code>, <code>MarkerClusterLayerOptions</code> (every option, with the same
+names, types and defaults), <code>AnimationsOptions</code>, <code>PolygonOptions</code>, <code>MarkerClusterNode</code> and <code>MarkerNode</code> keep their
+names; <code>Marker</code> and <code>LatLngBounds</code> are flutter_unified_map's.</p>
+<p>Differences:</p>
+<ul>
+<li><strong>Bitmaps.</strong> On Android, iOS and macOS the markers are native: every marker child and cluster widget is rasterised
+once per key. Give markers an <code>iconKey</code> that captures their look (see <code>Marker</code>), and clusters a
+<code>clusterIconKey</code> when the <code>builder</code> shows more than the count (the default key is the number of markers).</li>
+<li><strong>No <code>popupOptions</code></strong> (flutter_map_marker_popup): open your popup from <code>onMarkerTap</code>, for example with a
+<code>MarkerLayer</code> holding a selected pin, or a Flutter overlay.</li>
+<li><strong>Native gestures.</strong> Native markers report single taps only: <code>onMarkerDoubleTap</code>, <code>onMarkerHoverEnter</code> and
+<code>onMarkerHoverExit</code> are not called there. With <code>markerChildBehavior: true</code>, <code>onMarkerTap</code> and
+<code>centerMarkerOnClick</code> are skipped as on flutter_map, and <code>Marker.onTap</code> still fires.</li>
+<li><strong>Curves.</strong> Native markers move with the platform's ease-in-out; the <code>AnimationsOptions</code> curves of the split, merge,
+fade and spiderfy animations apply on flutter_map only. <code>fitBoundCurves</code> and <code>centerMarkerCurves</code> are passed to the
+camera animations everywhere (the native camera ignores curves, see flutter_unified_map's STATUS).</li>
+<li><strong>Spiderfy.</strong> As in flutter_map_marker_cluster, a tapped cluster spiderfies when zooming cannot split it. Natively:
+<ul>
+<li>this also covers markers sharing the exact same point (flutter_map_marker_cluster first zooms to <code>maxZoom</code>, then
+spiderfies on a second tap);</li>
+<li>the camera centers such a cluster at its current zoom, where flutter_map_marker_cluster rounds the zoom up;</li>
+<li>the spiderfied cluster stays under its markers at 30 % opacity;</li>
+<li>legs join the markers to the cluster once they arrived, styled by the extra <code>spiderLegs</code> option (null draws
+none; flutter_map_marker_cluster draws no legs, so web, Windows and Linux never show them);</li>
+<li>a map tap (not a long press) or a zoom closes the spider;</li>
+<li>when the tap first moves the camera to center the cluster, the spider opens once the platform reports the camera
+there, and not at all if the user takes the camera elsewhere meanwhile;</li>
+<li>the hull polygon is drawn solid.</li>
+</ul>
+</li>
+<li><strong>Callbacks.</strong> <code>onClusterTap</code> receives a <code>MarkerClusterNode</code> of this package. On flutter_map it is converted from
+flutter_map_marker_cluster's node with its subtree (its <code>parent</code> is null). <code>onMarkersClustered</code> receives, natively,
+the markers shown alone that join a cluster (zooming out, a spider closing).</li>
+<li><strong>Rebuilds.</strong> As in flutter_map_marker_cluster, a new <code>markers</code> list rebuilds the clusters and a new <code>computeSize</code>
+alone does not; on every platform a new <code>maxClusterRadius</code>, <code>disableClusteringAtZoom</code>, <code>size</code> or <code>alignment</code>
+rebuilds them too. Natively the tree is kept when the new markers have the same keys and points as the previous
+ones (only the markers it hands out change), and an equivalent list sends nothing to the map (see below). A real
+change rebuilds the tree on the UI thread, in O(markers × zoom levels): a few tens of milliseconds for 4000 markers.</li>
+<li><strong>Marker keys.</strong> Give every marker a unique <code>Key</code>: native ids, and so the transitions across list changes, follow
+the keys; a marker without a key is identified by its index. Duplicate keys fail an assertion in debug builds.</li>
+<li><strong>Invalid coordinates.</strong> A marker with a NaN or infinite coordinate is left out and reported through
+<code>FlutterError.reportError</code> (flutter_map_marker_cluster throws).</li>
+</ul>
+<h3 id="from-flutter_unified_maps-former-markerclusterlayer">From flutter_unified_map's former <code>MarkerClusterLayer</code></h3>
+<p><code>MarkerClusterLayer(options:)</code> becomes <code>MarkerClusterLayerWidget(options:)</code>, with flutter_map_marker_cluster's
+defaults: <code>disableClusteringAtZoom</code> 20 (clusters up to and including that level), <code>padding</code> is the padding of the
+camera fit on a cluster tap (default zero) and <code>alignment</code> is nullable. With <code>zoomToBoundsOnClick: false</code> every
+cluster tap spiderfies unless <code>spiderfyCluster: false</code>: an app that moves the camera itself in <code>onClusterTap</code> must set
+it, or its camera move closes the spider right after it opened.</p>
+<h2 id="how-it-works-on-native-maps">How it works on native maps</h2>
+<p>The tree is built once per marker list, with flutter_map_marker_cluster's distance grid and radius semantics, so the
+clusters are the same as on flutter_map at the same zoom (the cluster level is the zoom rounded up). The layer
+publishes the elements of that level in the viewport grown by one viewport on each side (at most 1500: those on
+screen first, then the nearest to the screen), as one atomic generation through <code>flutter_unified_map</code>'s
+<code>MarkerPublisher</code>:</p>
+<ul>
+<li>the area is clustered again when the camera settles (unless the last generation still covers it), as soon as the
+zoom level changes during a gesture or an animation (0.05 past the level's boundary, so that a pinch hovering on an
+integer zoom does not flip the clusters; a settled camera always shows the exact level), and when a gesture moved
+the camera by more than a quarter of the viewport (at most every 150 ms);</li>
+<li>a level change sends a <code>MarkerTransition</code> of <code>animationsOptions.zoom</code>: an element that was not on the map slides
+out of the element on the map that contains it, an element leaving slides into the new element that contains it,
+the others fade; elements present before and after keep their id and do not move. <code>Duration.zero</code> turns it off;</li>
+<li>a spider opening or closing is the same transition with <code>animationsOptions.spiderfy</code>;</li>
+<li>a cluster tap fits the camera to the cluster with <code>animationsOptions.fitBound</code>, a marker tap centers it with
+<code>animationsOptions.centerMarker</code>, and the cluster's convex hull is shown while the map zooms in (<code>showPolygon</code>).</li>
+</ul>
+<p>Object ids depend on the marker keys: a marker is <code>MapLayerState.objectId(marker.key, index)</code>, a cluster
+<code>'&lt;layerId&gt;/c&lt;zoom&gt;:&lt;id of its first marker without the layer id&gt;'</code>. A new list of equivalent markers therefore
+gives the same ids: nothing is sent to the map, an open spider stays open, and transitions continue across it. A tap
+is resolved against the tree of the generation the map shows, which may be older than the newest one while that one
+waits for its icons.</p>
+<p>A generation can reach the map before the previous one finished animating, or together with it (the map merges the
+generations set before one push). So a new element slides out of where its container is on screen, estimated from
+the container's own glide (ease-in-out over the transition's duration), and the elements still sliding away are sent
+on into the new element that contains them: during a fast pinch across several levels everything comes out of, and
+goes back into, what the user sees.</p>
+<p>The area wraps across the antimeridian like the native maps, and distances to the screen are measured the short way
+round. When the camera settles, the icons of the on-screen clusters of the neighbouring levels are rasterised ahead
+(at most 48, nearest the center first, four at a time), so a zoom step rarely waits for them.</p>
+<h2 id="example">Example</h2>
+<p><code>example/example.dart</code> is a minimal map. The <code>example/</code> app of
+<a href="https://github.com/dartstack-dev/flutter_unified_map_marker_cluster">the repository</a> opens on the Brussels city network
+— 120 pins under one cluster: tap it and the camera zooms in while the cluster splits down to every pin —
+plus a spiderfy page (one stack of pins on the same point — a single cluster that a tap spreads on a spiral); its
+tune button changes the animation durations, and its end-to-end tests run on the native maps.</p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="flutter_unified_map_marker_cluster">
+  <span class="name"><a href="flutter_unified_map_marker_cluster/">flutter_unified_map_marker_cluster</a></span> 
+
+</dt>
+<dd>Marker clustering for <code>flutter_unified_map</code> with the API of flutter_map_marker_cluster.
+</dd>
+
+        </dl>
+      </section>
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="https://dartstack.dev">flutter_unified_map_marker_cluster package</a></li>
+</ol>
+
+    <h5 class="hidden-xs"><span class="package-name">flutter_unified_map_marker_cluster</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="flutter_unified_map_marker_cluster/">flutter_unified_map_marker_cluster</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+</main>
+<footer>
+  <span class="no-break">
+    flutter_unified_map_marker_cluster
+      1.0.0
+  </span>
+  
+</footer>
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

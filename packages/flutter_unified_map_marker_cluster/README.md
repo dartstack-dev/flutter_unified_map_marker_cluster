@@ -11,9 +11,9 @@ markers around it (spiderfy).
 | iOS, macOS | Dart, flutter_map_marker_cluster's algorithm | MapKit annotations, animated natively |
 | Web, Windows, Linux, tests | flutter_map_marker_cluster itself | flutter_map_marker_cluster, inside the flutter_map backend |
 
-<img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-cluster.png" alt="The demo pins gathered under one cluster" width="230" height="500">
-<img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-open.png" alt="The cluster spiderfied: pins spread on a spiral with legs" width="230" height="500">
-<img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-closed.png" alt="The spider closed again" width="230" height="500">
+| Gathered under one cluster | Spiderfied | Closed again |
+|---|---|---|
+| <img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-cluster.png" alt="The demo pins gathered under one cluster" width="230" height="500"> | <img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-open.png" alt="The cluster spiderfied: pins spread on a spiral with legs" width="230" height="500"> | <img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-closed.png" alt="The spider closed again" width="230" height="500"> |
 
 ```dart
 UnifiedMap(

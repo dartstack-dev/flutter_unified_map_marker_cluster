@@ -16,3 +16,6 @@ linter:
     unawaited_futures: true
     always_declare_return_types: true
     avoid_dynamic_calls: true
+
+formatter:
+  page_width: 120

@@ -1,4 +1,4 @@
-## 0.1.0 (unreleased)
+## 1.0.0 (2026-10-09)
 
 - First version, moved out of `flutter_unified_map` (where the layer was `MarkerClusterLayer`, clustered with
   supercluster on camera idle and without animation).

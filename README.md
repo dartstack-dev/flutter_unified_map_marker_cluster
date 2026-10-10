@@ -4,9 +4,9 @@ Animated marker clustering for [flutter_unified_map](https://github.com/dartstac
 [flutter_map_marker_cluster](https://pub.dev/packages/flutter_map_marker_cluster). Usage, differences with
 flutter_map_marker_cluster and how it works: [the package README](packages/flutter_unified_map_marker_cluster/README.md).
 
-![The demo pins gathered under one cluster](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-cluster.png)
-![The cluster spiderfied: pins spread on a spiral with legs](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-open.png)
-![The spider closed again](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-closed.png)
+<img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-cluster.png" alt="The demo pins gathered under one cluster" width="230" height="500">
+<img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-open.png" alt="The cluster spiderfied: pins spread on a spiral with legs" width="230" height="500">
+<img src="https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-closed.png" alt="The spider closed again" width="230" height="500">
 
 ## Layout
 

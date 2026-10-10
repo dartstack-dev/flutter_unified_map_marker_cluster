@@ -1,6 +1,6 @@
 # flutter_unified_map_marker_cluster
 
-Marker clustering for [flutter_unified_map](https://github.com/AlphaByte/flutter_unified_map) with the API of
+Marker clustering for [flutter_unified_map](https://github.com/dartstack-dev/flutter_unified_map) with the API of
 [flutter_map_marker_cluster](https://pub.dev/packages/flutter_map_marker_cluster) 8.2: clusters split and merge with
 an animation when the zoom level changes, also during a pinch, and a cluster that zooming cannot split spreads its
 markers around it (spiderfy).
@@ -10,6 +10,10 @@ markers around it (spiderfy).
 | Android | Dart, flutter_map_marker_cluster's algorithm | Google Maps markers, animated natively |
 | iOS, macOS | Dart, flutter_map_marker_cluster's algorithm | MapKit annotations, animated natively |
 | Web, Windows, Linux, tests | flutter_map_marker_cluster itself | flutter_map_marker_cluster, inside the flutter_map backend |
+
+![The demo pins gathered under one cluster](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-cluster.png)
+![The cluster spiderfied: pins spread on a spiral with legs](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-open.png)
+![The spider closed again](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-closed.png)
 
 ```dart
 UnifiedMap(
@@ -147,7 +151,7 @@ round. When the camera settles, the icons of the on-screen clusters of the neigh
 ## Example
 
 `example/example.dart` is a minimal map. The `example/` app of
-[the repository](https://github.com/AlphaByte/flutter_unified_map_marker_cluster) opens on the Brussels city network
+[the repository](https://github.com/dartstack-dev/flutter_unified_map_marker_cluster) opens on the Brussels city network
 — 120 pins under one cluster: tap it and the camera zooms in while the cluster splits down to every pin —
 plus a spiderfy page (one stack of pins on the same point — a single cluster that a tap spreads on a spiral); its
 tune button changes the animation durations, and its end-to-end tests run on the native maps.

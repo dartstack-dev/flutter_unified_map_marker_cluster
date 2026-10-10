@@ -1,8 +1,12 @@
 # flutter_unified_map_marker_cluster
 
-Animated marker clustering for [flutter_unified_map](https://github.com/AlphaByte/flutter_unified_map) with the API of
+Animated marker clustering for [flutter_unified_map](https://github.com/dartstack-dev/flutter_unified_map) with the API of
 [flutter_map_marker_cluster](https://pub.dev/packages/flutter_map_marker_cluster). Usage, differences with
 flutter_map_marker_cluster and how it works: [the package README](packages/flutter_unified_map_marker_cluster/README.md).
+
+![The demo pins gathered under one cluster](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-cluster.png)
+![The cluster spiderfied: pins spread on a spiral with legs](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-open.png)
+![The spider closed again](https://raw.githubusercontent.com/dartstack-dev/flutter_unified_map_marker_cluster/main/screenshots/spiderfy-closed.png)
 
 ## Layout
 

@@ -25,7 +25,7 @@ class CaptureMap extends StatefulWidget {
 class _CaptureMapState extends State<CaptureMap> {
   static const _zoomIn = 10.4;
   static const _zoomOut = 5.2;
-  static const _phaseDuration = Duration(seconds: 13);
+  static const _phaseDuration = Duration(seconds: 6);
   static const _frameInterval = Duration(milliseconds: 40);
 
   final _controller = MapController();

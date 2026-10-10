@@ -5,7 +5,8 @@ import 'package:flutter_unified_map_marker_cluster/flutter_unified_map_marker_cl
 import 'demo_data.dart';
 import 'map_widgets.dart';
 
-/// The Brussels city network under one cluster, then hundreds of pins over Europe.
+/// The Brussels city network under a single cluster: zoom in and its pins dispatch over the area, zoom
+/// out and they pack back into one cluster.
 class PinsMap extends StatefulWidget {
   const PinsMap({
     super.key,
@@ -33,7 +34,7 @@ class PinsMap extends StatefulWidget {
 }
 
 class _PinsMapState extends State<PinsMap> {
-  late final _pins = widget.pins ?? generatePins();
+  late final _pins = widget.pins ?? generatePins(count: brusselsNetwork);
   late final _byId = {for (final pin in _pins) pin.id: pin};
   late final _markers = [
     for (final pin in _pins) Marker(key: ValueKey(pin.id), point: pin.point, iconKey: 'pin', child: const DemoPin()),

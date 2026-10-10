@@ -53,7 +53,7 @@ class _ClusterExampleAppState extends State<ClusterExampleApp> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: _page == 0
-                          ? const PinsHeader(count: demoPinCount)
+                          ? const PinsHeader(count: brusselsNetwork)
                           : const MapCard(child: Text('Tap a cluster that cannot be split by zooming')),
                     ),
                   );
